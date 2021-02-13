@@ -1,0 +1,23 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #eee;
+}
+
+.btn-circle {
+    border-radius: 3rem;
+    font-weight: 900;
+    height: 4rem;
+    width: 4rem;
+    font-size: 2em;
+    right: 2.5rem;
+    bottom: 2.5rem;
+    position: fixed;
+}
+
+.btn-edit {
+    color: #ffc107;
+}
+
+.btn-delete {
+    color: #dc3545;
+}

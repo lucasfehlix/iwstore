@@ -1,0 +1,15 @@
+{
+  "name": "projeto-admin-web",
+  "version": "1.0.0",
+  "description": "Ambiente de gerenciamento dos produtos do app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Felix",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "jquery": "^3.5.1"
+  }
+}
