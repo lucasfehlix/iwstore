@@ -73,6 +73,7 @@ function banners() {
                 </div>
             </div>
         </div>
+        ${modalConfirm()}
     `
 }
 
@@ -93,7 +94,7 @@ function getBanners() {
                     <td>${banner.description}</td>
                     <td>
                         <button class="btn btn-sm btn-danger" onclick="deleteBanner('${id}')">Excluir</button>
-                        <button class="btn btn-sm btn-warning" onclick="updateBanner('${id}')">Editar</button>
+                        <button class="btn btn-sm btn-warning" onclick="updateBanner('${id}','${banner.image}','${banner.description}')">Editar</button>
                     </td>    
                 </tr>
             
@@ -108,6 +109,25 @@ function createBanner() {
         image: document.getElementById('banner').value,
         description: document.getElementById('description').value
     }
+    if (document.getElementById('banner-id').value !== '') {
+        let id = document.getElementById('banner-id').value;
+        fetch(`${API_URL}banners/${id}.json`, {
+            method: 'PUT',
+            body: JSON.stringify(newBanner),
+        })
+        .then(response => response.json())
+        .then(response => {
+            document.getElementById('form-banner').reset()
+            document.getElementById('btn-cancel').dispatchEvent(
+                new Event('click')
+            )
+            getCategories()
+            document.getElementById('banner-id').value = ''
+            alertSuccess('Banner editado com sucesso!!!')
+        })
+        return;
+    }
+
     fetch(`${API_URL}banners.json`, {
         method: 'POST',
         body: JSON.stringify(newBanner),
@@ -123,26 +143,29 @@ function createBanner() {
     })
 }
 
-function updateBanner(id) {
-    event.preventDefault()
-    fetch(`${API_URL}banners/${id}.json`, {
-
-    })
-    .then(response => {
-        getBanners()
-        alertSuccess('Banner alterado com sucesso!!!')
-    })
+function updateBanner(id,image,description) {
+    document.getElementById('btn-add').dispatchEvent(
+        new Event('click')
+    )
+    document.getElementById('banner-id').value = id;
+    document.getElementById('banner').value = image;
+    document.getElementById('description').value = description;
 }
 
-function deleteBanner(id) {
-    event.preventDefault()
+function confirmAction() {
+    let id = document.getElementById('id-confirm').value
     fetch(`${API_URL}banners/${id}.json`, {
         method: 'DELETE',
     })
     .then(response => {
-        getBanners()
+        getCategories()
         alertSuccess('Banner deletado com sucesso!!!')
     })
+}
+
+function deleteBanner(id) {
+    document.getElementById('id-confirm').value = id;
+    $('#modal-confirm').modal();
 }
 
 function alertSuccess(message) {

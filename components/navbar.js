@@ -29,5 +29,5 @@ function navbar() {
                 </div>
             </div>
         </nav>
-    `
+    `;
 }

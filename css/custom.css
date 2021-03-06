@@ -17,7 +17,20 @@ html, body {
 .btn-edit {
     color: #ffc107;
 }
+.btn-edit:hover {
+    color: #d39e00;
+}
 
 .btn-delete {
     color: #dc3545;
+}
+.btn-delete:hover {
+    color: #bd2130;
+}
+
+.btn-view {
+    color: #007bff;
+}  
+.btn-view:hover {
+    color: #0069d9;
 }

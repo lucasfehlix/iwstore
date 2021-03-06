@@ -59,7 +59,8 @@ function categories() {
                     ${form()}
                 </div>
             </div>
-        </div>            
+        </div>
+        ${modalConfirm()}
     `
 }
 
@@ -76,7 +77,7 @@ function getCategories() {
                     <td>${category.description}</td>
                     <td>
                         <button class="btn btn-sm btn-danger" onclick="deleteCategory('${id}')">Excluir</button>
-                        <button class="btn btn-sm btn-warning" onclick="updateCategory('${id}')">Editar</button>
+                        <button class="btn btn-sm btn-warning" onclick="updateCategory('${id}','${category.name}','${category.description}')">Editar</button>
                     </td>    
                 </tr>
             
@@ -91,6 +92,27 @@ function createCategory() {
         name: document.getElementById('category').value,
         description: document.getElementById('description').value
     }
+
+    if (document.getElementById('category-id').value !== '') {
+        let id = document.getElementById('category-id').value;
+        fetch(`${API_URL}categories/${id}.json`, {
+            method: 'PUT',
+            body: JSON.stringify(newCategory),
+        })
+        .then(response => response.json())
+        .then(response => {
+            document.getElementById('form-category').reset()
+            document.getElementById('btn-cancel').dispatchEvent(
+                new Event('click')
+            )
+            getCategories()
+            document.getElementById('category-id').value = ''
+            alertSuccess('Categoria editada com sucesso!!!')
+        })
+        return;
+    }
+
+
     fetch(`${API_URL}categories.json`, {
         method: 'POST',
         body: JSON.stringify(newCategory),
@@ -102,23 +124,21 @@ function createCategory() {
             new Event('click')
         )
         getCategories()
-        alertSuccess('Cateroria criada com sucesso!!!')
+        alertSuccess('Categoria criada com sucesso!!!')
     })
 }
 
-function updateCategory(id) {
-    event.preventDefault()
-    fetch(`${API_URL}categories/${id}.json`, {
-
-    })
-    .then(response => {
-        getCategories()
-        alertSuccess('Cateroria alterada com sucesso!!!')
-    })
+function updateCategory(id,name,description) {
+    document.getElementById('btn-add').dispatchEvent(
+        new Event('click')
+    )
+    document.getElementById('category-id').value = id;
+    document.getElementById('category').value = name;
+    document.getElementById('description').value = description;
 }
 
-function deleteCategory(id) {
-    event.preventDefault()
+function confirmAction() {
+    let id = document.getElementById('id-confirm').value
     fetch(`${API_URL}categories/${id}.json`, {
         method: 'DELETE',
     })
@@ -126,6 +146,11 @@ function deleteCategory(id) {
         getCategories()
         alertSuccess('Cateroria deletada com sucesso!!!')
     })
+}
+
+function deleteCategory(id) {
+    document.getElementById('id-confirm').value = id;
+    $('#modal-confirm').modal();
 }
 
 function alertSuccess(message) {
