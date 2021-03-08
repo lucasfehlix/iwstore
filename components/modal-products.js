@@ -1,20 +1,13 @@
-function modalProducts(id) {
-
-    console.log(id)
-    fetch(`${API_URL}products/${id}.json`)
-    .then(response => response.json())
-    .then(response => {
-            console.log(response)
-            //document.getElementById('name-product').value = response.name
-            //document.getElementById('description-product').value = response.description
-            //document.getElementById('length-product').value = response.langth
-            //document.getElementById('status-product').value = response.status
-            //document.getElementById('price-product').value = response.price
-            //document.getElementById('quantity-product').value = response.quantity
-            //document.getElementById('photos-product').value = response.photos
-            //document.getElementById('category-product').value = response.category
-    })
-
+function modalProducts(response) {
+    if (response) {
+        document.getElementById('name-product').innerHTML = `<p><strong>Produto: </strong>${response.name}</p>`
+        document.getElementById('description-product').innerHTML = `<p><strong>Descrição: </strong>${response.description}</p>`
+        document.getElementById('length-product').innerHTML = `<p><strong>Tamanho: </strong>${response.length}</p>`
+        document.getElementById('price-product').innerHTML = `<p><strong>Preço: </strong>${response.price}</p>`
+        document.getElementById('quantity-product').innerHTML = `<p><strong>Quantidade: </strong>${response.quantity}</p>`
+        document.getElementById('status-product').innerHTML = `<p><strong>Disponibilidade: </strong>${response.status}</p>`
+        document.getElementById('category-product').innerHTML = `<p><strong>Categoria: </strong>${response.category}</p>`
+    }
     const carousel = () => {
         return `
             <div id="carouselFade" class="carousel slide carousel-fade" data-ride="carousel">
@@ -43,8 +36,22 @@ function modalProducts(id) {
 
     const modalBody = () => {
         return `
-            
             ${carousel()}
+            <div class="row mt-3">
+                <div class="col" id="name-product"></div>
+                <div class="col" id="description-product"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col" id="length-product"></div>
+                <div class="col" id="price-product"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col" id="quantity-product"></div>
+                <div class="col" id="status-product"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col" id="category-product"></div>
+            </div>
         `
     }
 

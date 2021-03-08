@@ -16,12 +16,6 @@ function products() {
             </div>
         `
     }
-    //<th>Fotos</th>
-    // <th>Preço</th>
-    // <th>Tamanho</th>
-    // <th>Quantidade</th>
-    // <th>Disponibilidade</th>
-    // <th>Categoria</th>
 
     const form = () => {
         return `
@@ -45,7 +39,7 @@ function products() {
                 <input type="text" class="form-control" id="price" required>
                 
                 <label for="quantity" class="form-label mt-2">Quantidade</label>
-                <input type="text" class="form-control" id="quantity" required>
+                <input type="number" class="form-control" id="quantity" required>
                 
                 <label for="photos" class="form-label mt-2">Fotos</label>
                 <input type="text" class="form-control" id="photos" required>
@@ -117,14 +111,6 @@ function getProducts() {
         }
     })
 }
-{/* 
-<td>${product.photos}</td>
-<td>${product.price}</td>
-<td>${product.length}</td>
-<td>${product.status}</td>
-<td>${product.quantity}</td>
-<td>${product.category}</td> 
-*/}
 
 function createProduct() {
     event.preventDefault()
@@ -200,8 +186,12 @@ function deleteProduct(id) {
 }
 
 function viewProduct(id) {
-    modalProducts(id);
-    $('#modal-products').modal();
+    fetch(`${API_URL}products/${id}.json`)
+    .then(response => response.json())
+    .then(response => {
+        modalProducts(response);
+        $('#modal-products').modal();
+    })
 }
 
 function alertSuccess(message) {
